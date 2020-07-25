@@ -8,7 +8,8 @@ const port = 3000
 // require express-handlebars here
 const exphbs = require('express-handlebars')
 
-const restaurantList = require('./restaurant.json')
+// const restaurantList = require('./restaurant.json')
+const Restaurant = require('./models/restaurant')
 
 // setting template engine
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
@@ -33,22 +34,25 @@ db.once('open', () => {
 
 // routes setting
 app.get('/', (req, res) => {
-  res.render('index', { restaurants: restaurantList.results })
+  Restaurant.find()
+    .lean()
+    .then(restaurants => res.render('index', { restaurants }))
+    .catch(error => console.error(error))
 })
 
 // show selected restaurant info
 app.get('/restaurants/:restaurant_id', (req, res) => {
-  const selected_restaurant = restaurantList.results.find(restaurant => restaurant.id.toString() === req.params.restaurant_id)
-  res.render('show', { restaurants: selected_restaurant })
+  // const selected_restaurant = restaurantList.results.find(restaurant => restaurant.id.toString() === req.params.restaurant_id)
+  // res.render('show', { restaurants: selected_restaurant })
 })
 
 // query restaurant
 app.get('/search', (req, res) => {
-  const keyword = req.query.keyword
-  const search_restaurants = restaurantList.results.filter(restaurant => {
-    return restaurant.name.toLowerCase().includes(keyword.toLowerCase())
-  })
-  res.render('index', { restaurants: search_restaurants, keyword: keyword })
+  // const keyword = req.query.keyword
+  // const search_restaurants = restaurantList.results.filter(restaurant => {
+  //   return restaurant.name.toLowerCase().includes(keyword.toLowerCase())
+  // })
+  // res.render('index', { restaurants: search_restaurants, keyword: keyword })
 })
 
 // start and listen on Express server
