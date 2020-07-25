@@ -41,9 +41,13 @@ app.get('/', (req, res) => {
 })
 
 // show selected restaurant info
-app.get('/restaurants/:restaurant_id', (req, res) => {
-  // const selected_restaurant = restaurantList.results.find(restaurant => restaurant.id.toString() === req.params.restaurant_id)
-  // res.render('show', { restaurants: selected_restaurant })
+app.get('/restaurants/:id', (req, res) => {
+  const id = req.params.id
+
+  Restaurant.findById(id)
+    .lean()
+    .then(restaurant => res.render('show', { restaurant }))
+    .catch(error => console.error(error))
 })
 
 // query restaurant
