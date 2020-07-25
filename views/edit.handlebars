@@ -1,8 +1,8 @@
-<h1 class="mb-1 restaurant-show-title">建立新餐廳</h1>
+<h1 class="mb-1 restaurant-show-title">修改餐廳資料</h1>
 <div class="container mt-2">
   <div class="row">
     <div class="col-md-10 col-12 mx-auto">
-      <form action="/add_restaurant" method="POST">
+      <form action="/restaurants/{{ restaurant._id }}/edit" method="POST">
         {{!-- name --}}
         <div class="form-group row">
           <label for="name" class="col-sm-2 col-form-label text-secondary">餐廳名</label>
@@ -15,7 +15,8 @@
         <div class="form-group row">
           <label for="name_en" class="col-sm-2 col-form-label text-secondary">餐廳英文名</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" name="name_en" id="name_en" placeholder="English Name">
+            <input type="text" class="form-control" name="name_en" id="name_en" placeholder="English Name"
+              value="{{restaurant.name_en}}">
           </div>
         </div>
         {{!-- category --}}
@@ -23,12 +24,19 @@
           <label class="category text-secondary col-sm-2" for="inlineFormCustomSelectPref">類別</label>
           <div class="col-sm-10">
             <select class="custom-select" id="category" name="category">
-              <option value="中東料理">中東料理(default)</option>
-              <option value="日本料理">日本料理</option>
-              <option value="義式餐廳">義式餐廳</option>
-              <option value="美式">美式</option>
-              <option value="酒吧">酒吧</option>
-              <option value="咖啡">咖啡</option>
+              <option value="中東料理" {{#categorySame restaurant.category '中東料理'}}selected="selected" {{/categorySame}}>
+                中東料理(default)
+              </option>
+              <option value="日本料理" {{#categorySame restaurant.category '日本料理'}}selected="selected" {{/categorySame}}>
+                日本料理</option>
+              <option value="義式餐廳" {{#categorySame restaurant.category '義式餐廳'}}selected="selected" {{/categorySame}}>
+                義式餐廳</option>
+              <option value="美式" {{#categorySame restaurant.category '美式'}}selected="selected" {{/categorySame}}>美式
+              </option>
+              <option value="酒吧" {{#categorySame restaurant.category '酒吧'}}selected="selected" {{/categorySame}}>酒吧
+              </option>
+              <option value="咖啡" {{#categorySame restaurant.category '咖啡'}}selected="selected" {{/categorySame}}>咖啡
+              </option>
             </select>
           </div>
         </div>
@@ -59,26 +67,29 @@
         <div class="form-group row">
           <label for="google_map" class="col-sm-2 col-form-label text-secondary">Google 地圖</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" name="google_map" id="google_map" placeholder="http://">
+            <input type="text" class="form-control" name="google_map" id="google_map" placeholder="http://"
+              value="{{restaurant.google_map}}">
           </div>
         </div>
         {{!-- rating --}}
         <div class="form-group row">
           <label for="rating" class="col-sm-2 col-form-label text-secondary">評分</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" name="rating" id="rating" placeholder="Rating">
+            <input type="text" class="form-control" name="rating" id="rating" placeholder="Rating"
+              value="{{restaurant.rating}}">
           </div>
         </div>
         {{!-- description --}}
         <div class="form-group row">
           <label for="description" class="col-sm-2 col-form-label text-secondary">介紹</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" name="description" id="description" placeholder="Description">
+            <input type="text" class="form-control" name="description" id="description" placeholder="Description"
+              value="{{restaurant.description}}">
           </div>
         </div>
         {{!-- add button --}}
         <div class="form-group row justify-content-end mr-1">
-          <button type="submit" class="btn btn-info">Add</button>
+          <button type="submit" class="btn btn-primary">Edit</button>
         </div>
       </form>
     </div>
