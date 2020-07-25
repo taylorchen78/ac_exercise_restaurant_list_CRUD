@@ -1,6 +1,8 @@
 // require packages used in the project
 const express = require('express')
+const mongoose = require('mongoose')
 const app = express()
+
 const port = 3000
 
 // require express-handlebars here
@@ -14,6 +16,20 @@ app.set('view engine', 'handlebars')
 
 // setting static files
 app.use(express.static('public'))
+
+// setting mongoose connection
+mongoose.connect('mongodb://localhost/restaurant-list', { useNewUrlParser: true, useUnifiedTopology: true })
+
+// get mongo db connection
+const db = mongoose.connection
+
+db.on('error', () => {
+  console.log('mongodb error')
+})
+
+db.once('open', () => {
+  console.log('mongodb connected')
+})
 
 // routes setting
 app.get('/', (req, res) => {
