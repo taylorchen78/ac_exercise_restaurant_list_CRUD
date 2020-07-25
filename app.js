@@ -1,6 +1,8 @@
 // require packages used in the project
 const express = require('express')
 const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+
 const app = express()
 
 const port = 3000
@@ -17,6 +19,9 @@ app.set('view engine', 'handlebars')
 
 // setting static files
 app.use(express.static('public'))
+
+// use bodyparser
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // setting mongoose connection
 mongoose.connect('mongodb://localhost/restaurant-list', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -58,6 +63,26 @@ app.get('/search', (req, res) => {
     .lean()
     .then(restaurants => res.render('index', { restaurants }))
     .catch(error => console.error(error))
+})
+
+// add new restaurant
+app.get('/add', (req, res) => {
+  return res.render('add')
+})
+
+// add new restaurant
+app.post('/add_restaurant', (req, res) => {
+  const restaurant = req.body
+
+  if ((restaurant.name.length === 0) || (restaurant.image.length === 0) ||
+    (restaurant.location.length === 0) || (restaurant.phone.length === 0)) {
+    return res.render('add', { restaurant })
+  }
+  else {
+    return Restaurant.create(restaurant)
+      .then(() => res.redirect('/'))
+      .catch(error => console.log(error))
+  }
 })
 
 // delete selected restaurant
