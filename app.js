@@ -52,11 +52,21 @@ app.get('/restaurants/:id', (req, res) => {
 
 // query restaurant
 app.get('/search', (req, res) => {
-  // const keyword = req.query.keyword
-  // const search_restaurants = restaurantList.results.filter(restaurant => {
-  //   return restaurant.name.toLowerCase().includes(keyword.toLowerCase())
-  // })
-  // res.render('index', { restaurants: search_restaurants, keyword: keyword })
+  const keyword = req.query.keyword
+
+  Restaurant.find({ name: { $regex: keyword, $options: 'i' } })
+    .lean()
+    .then(restaurants => res.render('index', { restaurants }))
+    .catch(error => console.error(error))
+})
+
+// delete selected restaurant
+app.post('/restaurants/:id/delete', (req, res) => {
+  // const id = req.params.id
+  // return Todo.findById(id)
+  //   .then(todo => todo.remove())
+  //   .then(() => res.redirect('/'))
+  //   .catch(error => console.log(error))
 })
 
 // start and listen on Express server
