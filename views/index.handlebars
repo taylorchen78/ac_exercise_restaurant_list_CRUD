@@ -43,7 +43,8 @@
                   <button class="btn btn-outline-primary btn-sm mr-2" type="submit">Edit</button>
                 </form>
                 <form action="/restaurants/{{ this._id }}/delete" method="POST" style="display: inline;">
-                  <button class="btn btn-outline-danger btn-sm" type="submit">Delete</button>
+                  <button class="btn btn-outline-danger btn-sm" type="submit"
+                    onclick="alert('Are you sure to delete ?')">Delete</button>
                 </form>
               </div>
             </div>
