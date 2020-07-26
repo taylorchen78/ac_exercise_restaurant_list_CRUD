@@ -69,7 +69,7 @@ app.get('/restaurants/:id', (req, res) => {
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword
 
-  Restaurant.find({ name: { $regex: keyword, $options: 'i' } })
+  Restaurant.find().or([{ name: { $regex: keyword, $options: 'i' } }, { category: { $regex: keyword, $options: 'i' } }])
     .lean()
     .then(restaurants => res.render('index', { restaurants }))
     .catch(error => console.error(error))
